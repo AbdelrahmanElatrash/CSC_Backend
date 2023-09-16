@@ -1,4 +1,5 @@
-const { query } = require('express');
+const bcrypt = require('bcrypt');
+// const { query } = require('express');
 const pg = require('pg');
 
 
@@ -110,7 +111,7 @@ const handleGetData = async (req, res) => {
           res.send(data.rows);
       })
       .catch((err)=>{
-        console.error('Error retrieving data:', error);
+        console.error('Error retrieving data:', err);
       res.status(500).json({ error: 'An error occurred while retrieving data.' });
     })
   }
@@ -125,7 +126,7 @@ const handleGetassign = async (req, res) => {
         res.send.json(data.rows);
     })
     .catch((err)=>{
-      console.error('Error retrieving data:', error);
+      console.error('Error retrieving data:', err);
     res.status(500).json({ error: 'An error occurred while retrieving data.' });
   })
   }
@@ -203,7 +204,7 @@ const getSubject=(req, res) => {
           res.send(data.rows);
       })
       .catch((err)=>{
-        console.error('Error retrieving data:', error);
+        console.error('Error retrieving data:', err);
       res.status(500).json({ error: 'An error occurred while retrieving data.' });
     })
   }
@@ -232,7 +233,7 @@ const getStudent=(req, res) => {
           res.send(data.rows);
       })
       .catch((err)=>{
-        console.error('Error retrieving data:', error);
+        console.error('Error retrieving data:', err);
       res.status(500).json({ error: 'An error occurred while retrieving data.' });
     })
   }

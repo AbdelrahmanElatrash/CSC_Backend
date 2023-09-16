@@ -1,6 +1,6 @@
 const express=require('express');
 const router=express.Router();
-const pg=require('pg');
+// const pg=require('pg');
 
 //  database connection ................................................
 
@@ -8,15 +8,15 @@ const pg=require('pg');
 // const dataBaseURL=process.env.DATABASE_URL
 // const db = new pg.Client(dataBaseURL);  
 
-const db=new pg.Client({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'registrationdb',
-    password: 'new_password',
-    port: 5432,
-  });
+// const db=new pg.Client({
+//     user: 'postgres',
+//     host: 'localhost',
+//     database: 'registrationdb',
+//     password: 'new_password',
+//     port: 5432,
+//   });
 
-db.connect()
+// db.connect()
 
 //  ###  routes   #############################################################
 

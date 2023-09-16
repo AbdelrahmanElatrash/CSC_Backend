@@ -1,3 +1,26 @@
+const { query } = require('express');
+const pg = require('pg');
+
+
+//  database connection ................................................
+
+// require('dotenv').config({ path: '.dotenv' });
+// const dataBaseURL=process.env.DATABASE_URL
+const db = new pg.Client('postgres://a@127.0.0.1:5432/registrationdb');  
+
+// const db=new pg.Client({
+//     user: 'postgres',
+//     host: 'localhost',
+//     database: 'registrationdb',
+//     password: 'new_password',
+//     port: 5432,
+//   });
+
+db.connect()
+
+
+// -------------------------------------------------------------------------------------
+
 const handleRegistration = async (req, res) => {
     try {
       const { username, email, password, confirmPassword, role } = req.body;

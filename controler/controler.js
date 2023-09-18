@@ -21,8 +21,9 @@ db.connect()
 
 
 // -------------------------------------------------------------------------------------
-
+// #########   add new user ################################
 const handleRegistration = async (req, res) => {
+
     try {
       const { username, email, password, confirmPassword, role } = req.body;
       
@@ -67,7 +68,8 @@ const handleRegistration = async (req, res) => {
       res.status(500).json({ error: 'An error occurred during registration.' });
     }
   };
-  
+ 
+// #########  add new subject ################################3
 const handleAddSubject = async (req, res) => {
     try {
       const { subject_name, new_pass_mark } = req.body;
@@ -101,7 +103,8 @@ const handleAddSubject = async (req, res) => {
       res.status(500).json({ error: 'An error occurred during subject addition' });
     }
   };
-  
+ 
+//  ##########  get all user ###########
 const handleGetData = async (req, res) => {
     
       
@@ -112,7 +115,7 @@ const handleGetData = async (req, res) => {
       })
       .catch((err)=>{
         console.error('Error retrieving data:', err);
-      res.status(500).json({ error: 'An error occurred while retrieving data.' });
+        res.status(500).json({ error: 'An error occurred while retrieving data.' });
     })
   }
   
@@ -131,8 +134,9 @@ const handleGetassign = async (req, res) => {
   })
   }
 
-
+//  ################ log in #################
 const logIn=async  (req, res) => {
+    
     const { email, password } = req.body;
 
   console.log('Login attempt with email:', email);
@@ -161,7 +165,7 @@ const logIn=async  (req, res) => {
 
     if (passwordMatch) {
       // Passwords match, consider it a successful login
-      return res.status(200).json({ username: user.username, is_active: user.is_active });
+      return res.status(200).json({id:user.id, username: user.username, is_active: user.is_active,email:user.email,role:user.role });
     } else {
       return res.status(401).json({ error: 'incorrect_password', message: 'Incorrect password' });
     }
@@ -171,15 +175,15 @@ const logIn=async  (req, res) => {
   }
   }
 
-
+// ####### assign subject to student ############
 const addsubject=async (req,res)=>{
 
-    const { subject_name, pass_mark ,student_mark,is_active,user_id} = req.body;
+    const { subject_id , user_id} = req.body;
   
 
 const query = {
-  text: 'INSERT INTO student (subject_name, pass_mark, student_mark, is_active, user_id) VALUES ($1, $2, $3, $4, $5)',
-    values: [subject_name,pass_mark,student_mark,is_active,user_id],
+  text: 'INSERT INTO student_subjects (student_id,subject_id) VALUES ($1, $2)',
+    values: [user_id,subject_id],
 };
 
 
@@ -209,16 +213,25 @@ const getSubject=(req, res) => {
     })
   }
 
-
+// #### get all subject for the specified user ###########
 const sau=async (req, res) => {
     // Get the user ID from the query parameter
-    const userId = req.query.user_id;
+    const userId = req.params.userId;
+    console.log(userId);
   
     try {
       // Query the database to fetch subjects data for the specified user
-      const queryText = 'SELECT subject_name, pass_mark, student_mark ,user_idFROM student WHERE user_id = $1';
-      const { rows } = await db.query(queryText, [userId]);
-      res.json(rows);
+      const query = {
+        text: 'SELECT subjects.* FROM subjects ' +
+              'INNER JOIN student_subjects ON subjects.id = student_subjects.subject_id ' +
+              'WHERE student_subjects.student_id = $1',
+        values: [userId],
+      };
+
+      const result = await db.query(query);
+      const subjects = result.rows;
+      res.json(subjects);
+      
     } catch (error) {
       console.error('Error retrieving data:', error);
       res.status(500).json({ error: 'An error occurred while retrieving data.' });
@@ -264,6 +277,7 @@ const userUpdate=(req, res) => {
     }
   
     
+
     const { username, email, is_active, role } = updatedUserData;
   
    

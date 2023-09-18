@@ -11,20 +11,21 @@ CREATE TABLE user_credentials (
 
 );
 
-DROP TABLE IF EXISTS subjects ,
+DROP TABLE IF EXISTS subjects ;
 CREATE TABLE subjects (
     id SERIAL PRIMARY KEY,
     subject_name VARCHAR(255) NOT NULL,
-    new_pass_mark VARCHAR(255) NOT NULL UNIQUE
+    new_pass_mark VARCHAR(255) NOT NULL 
     
 );
 
 
-DROP TABLE IF EXISTS student_subjects ;
-CREATE TABLE student_subjects(
+DROP TABLE IF EXISTS student_subjects;
+CREATE TABLE student_subjects (
     id SERIAL PRIMARY KEY,
     student_id INTEGER REFERENCES user_credentials(id),
-    subject_id INTEGER REFERENCES subjects(id)
+    subject_id INTEGER REFERENCES subjects(id),
+    mark_obtained INTEGER DEFAULT -1
 );
  
 

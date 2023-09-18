@@ -23,14 +23,14 @@ const router=express.Router();
 const conroler=require('../controler/controler')
 
 router.post('/register', conroler.handleRegistration);
-router.get('/getdata', conroler.handleGetData);
+router.get('/getdata', conroler.handleGetData);  // git all user
 router.get('/getassign', conroler.handleGetassign);
 router.post('/addsubjecto', conroler.handleAddSubject);
 
 router.post('/login',conroler.logIn)
 router.post('/addsubject',conroler.addsubject)
 router.get('/subjects', conroler.getSubject)
-router.get('/sau',conroler.sau)
+router.get('/student/:userId/subjects',conroler.sau)
 router.get('/students',conroler.getStudent)
 router.post('/assign-subject',conroler.signSubject)
 router.put('/updateuser/:id',conroler.userUpdate)
